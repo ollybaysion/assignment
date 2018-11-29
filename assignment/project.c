@@ -1,4 +1,8 @@
-#include <stdio.h>
+#include "project.h"
+
+/*
+ * main()
+ */
 
 int main()
 {
