@@ -45,5 +45,5 @@ int RLElen(char *src);
 void RLEoptimize(char *src);
 
 // FREE : functions for implement each functions above.
-int isAlpha(char ch)
-int isNum(char ch)
+int isAlpha(char ch);
+int isNum(char ch);
