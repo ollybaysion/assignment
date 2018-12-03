@@ -34,5 +34,16 @@ int fileHT(LIST *e, FILE *output);
 int hashString(char *str);
 
 // functions for dealing with RLE
+int numToString(char *des, int src);
+void addRLE(char *des, char ch, int len);
+void pullRLE(char *des, char *src, int first, int last);
+int searchRLE(char *src, char *cmp);
+void deleteRLE(char *src, int first, int last);
+void insertRLE(char *src, char *str, int idx);
+int RLEinfo(char *src, char *dch, int *dlen);
+int RLElen(char *src);
+void RLEoptimize(char *src);
 
 // FREE : functions for implement each functions above.
+int isAlpha(char ch)
+int isNum(char ch)
