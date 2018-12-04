@@ -1,0 +1,17 @@
+this is for descriptionf of each file.
+
+ # Complete but not be qualified.
+ : If you want to change these files, please contact me before change. After talk, change together.
+ - RLE.c : functions for dealing with strings.
+ - testRLE.c : test each function in RLE.c
+
+ # Nearly complete but will change as design
+ : If you want to change theses files, just change. No permission needed.
+ - project.h : hash table design is on imcomplete. It will change as it.
+ - hashtable.h : same above.
+
+ # Just start
+ : Please change.
+ - hashtable.c : functions for hashtable.
+ - project.c : main function.
+ - report.txt : for report. description for design of hashtable, main function, and so on.
