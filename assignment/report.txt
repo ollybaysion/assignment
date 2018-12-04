@@ -1,0 +1,17 @@
+This file is a description of whole code in the project.
+
+# HASH TABLE
+ The Most important thing in this project is its data structure.
+ Whatever its data structure, it must solve next condition.
+ (In effect , it is about command 'P')
+
+ 1) SEARCHING WITH FULL KEY
+  command 'G', 'D' takes 'key', and do proper action. So, there must be a process where the program finds unique data for the key in the data structure. If this process take less time and less inner process, that will be great.
+
+ 2) SEARCHING WITH SUBSTRING KEY
+ command 'S' takes 'PART KEY' which consists of substring of key, number, and '*'.  It is same as 1). Less time, Less inner process required.
+
+ 3) MAKING LIST OF ALL THE KV PAIRS IN ALPHA-ORDER.
+ command 'F' will make a file which contains all the k-v pairs the program have in alphabetical order. How about data structure have its data in alphabetical order at the begining?
+
+ 
