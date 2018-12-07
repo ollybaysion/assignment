@@ -16,6 +16,10 @@ It's about hash.
  
  = 20 times
 
+	$3. Insert, Delete, ...
+ It puts its data on table as 'table'. WHAT'S DIFFERENCE? If you set 'list', it puts its data on table as 'list' and table make its list to insert data.
+ Put simply, 1) makes one function for insert, delete..etc. 2) makes two of it. I don't know difference of performance. What is good?
+
  2) table as list array
 	$1. Data Storage
  1 list in head dummy for 5 byte. 1000 hash table.
@@ -26,6 +30,7 @@ It's about hash.
 	$2. Search Time
  Same for 1)
 
+	$3. 
  Number of hash table, number of vacant hash table, size of node, size of head dummy... All of these things makes a difference. I don't know more difference. What is distinctive feateures for each?
 
 
