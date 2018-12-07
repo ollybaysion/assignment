@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "hashtable.h"
+#include "RLE.h"
 
 #define HASH_LEN 1000
 
@@ -10,7 +11,7 @@
 
 
 // functions for input data
-void input(char op); // input operation and do proper act.
+void input(char op, int data); // input operation and do proper act.
 
 // functions for hash table
 typedef int HashFunc(char *str);
