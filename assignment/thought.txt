@@ -1,0 +1,39 @@
+It's about hash.
+
+# Hash Table
+ - There are two ways of implementation of hash table.
+ 1) table as second dimensional array
+ 	$1. Data Storage
+ Suppose 10^4 node. 1 node for 10 byte. 1000 hash table.
+ All 10^5B = 100KB
+ If hash match each node for only 500 hash table, you need 500 * 10 = 5KB more data storage.
+ 
+ = 105KB.
+	$2. Search Time
+ Each hash table has 20 node.
+ It finds hash table as hash. (1)
+ Worst case, It finds its node in 20 search. (20)
+ 
+ = 20 times
+
+ 2) table as list array
+	$1. Data Storage
+ 1 list in head dummy for 5 byte. 1000 hash table.
+ All 5*10^3 + 10*10^4 = 105 KB.
+
+ = 105KB.
+
+	$2. Search Time
+ Same for 1)
+
+ Number of hash table, number of vacant hash table, size of node, size of head dummy... All of these things makes a difference. I don't know more difference. What is distinctive feateures for each?
+
+
+# Hash Function
+ There is no purpose for security, one key - one hash.
+ But it is very important to make hash function very carefully.
+ 
+ 1) convert each alph- to number, sum all, and modular 1000.
+
+# String Compare Algorithm
+ Obviously, there is more efficient way than strcmp() function.
