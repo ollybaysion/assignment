@@ -1,4 +1,4 @@
-#include "project.h"
+#include "./project.h"
 
 #define MAX_HASH 1000
 

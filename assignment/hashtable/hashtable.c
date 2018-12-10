@@ -4,14 +4,22 @@
 // for hash List in hash table.
 void ListInit(LIST *k)
 {
-	k->head = NULL;
-	k->cur = NULL;
+	k->head = (Node *)malloc(sizeof(Node));
+	k->cur = k->head;
 	k->numOfData = 0;
 }
 
 void putList(LIST *k, Body *bd)
 {
-	k->head->
+	Node *newNode = (Node *)malloc(sizeof(Node));
+	int len = strlen(bd->key);
+	newNode->data->key = (char *)malloc(sizeof(char) * (len+1));
+	strcpy(newNode->data->key, bd->key);
+	newNode->data->value = bd->value;
+
+	k->cur->next = newNode;
+	k->cur = k->cur->next;
+	k->numOfData++;
 }
 
 // for hash table
@@ -20,28 +28,42 @@ void HTinit(TABLE *e, HashFunc *f, HashComp *c)
 	e->table = (LIST *)malloc(sizeof(LIST) * HASH_LEN);
 	e->hf = f;
 	e->hc = c;
-	e->super = NULL;
-	e->super_alpha = NULL;
+	e->super = (Node *)malloc(sizeof(Node));
+	e->super_alpha = (Node *)malloc(sizeof(Node);
+	e->super_alpha->next = NULL;
 	e->numOfData = 0;
 }
 
-void putHT(TABLE *e, Body * bd)
+void putHT(TABLE *e, Body *bd)
 {
-	Node *newNode = (Node *)malloc(sizeof(Node));
-	newNode->data->key = malloc(sizeof(char) * (strlen(lkey) + 1));
-	strcat(newNode->data->key, lkey);
-	newNode->data->value = lvalue;
+	e->numOfData++;
+	int valhash = hf(bd->key);
+	LIST *pos = e->table[valhash];
 
-	int h = e->hf(lkey);
-	if(e->table[h] == NULL)
+	if(pos == NULL)
 	{
-		e->table[h] = newNode;
+		ListInit(pos);
 	}
-	else
-	{
-		Node *tmp = e->table[h];
-		while(tmp->next != NULL) tmp = tmp->next;
 
-		tmp->next = e->table[h];
+	putList(pos, bd);
+
+	Node *cural = e->super_alpha->next_alpha;
+	while(hc(cural->data->key, bd->key)) cural = cural->next_alpha;
+	pos->cur->next_alpha = cural->next_alpha;
+	cural->next_alpha = pos->cur;
+}
+
+Body *getHT(TABLE *e, char *lkey)
+{
+	int valhash = hf(lkey);
+	LIST *pos = e->table[valhash];
+	Node *ffind = pos->head->next;
+
+	while(ffind != NULL)
+	{
+		if(strcmp(lkey, ffind->data->key)) return &(ffind->data);
+		ffind = ffind->next;
 	}
+
+	return NULL;
 }
