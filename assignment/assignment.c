@@ -64,6 +64,7 @@ Body *searchHT(TABLE *e, char *find);
 
 // FREE : functions for implement each functions above.
 void decompressRLE(char *des, char *src);
+int powerCompare(char *src, char *com);
 
 // for hash List in hash table.
 void ListInit(LIST *k)
