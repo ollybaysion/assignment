@@ -157,6 +157,11 @@ int hashString(char *str)
 	return sum % 1000;
 }
 
+int mystrcmp(char *str1, char *str2)
+{
+
+}
+
 int isNum(char ch)
 {
 	if (ch >= '0' && ch <= '9') return 1;
@@ -371,14 +376,42 @@ int search(char *src, char *str)
 	return 0;
 }
 
+void input(char op, Body *data)
+{
+
+}
 int main()
 {
-	char str1[100];
-	char str2[100];
+	TABLE myHT;
+	HTinit(&myHT, hashString, mystrcmp);
+	int N;
+	char buf[300];
+	int data;
+	char op;
+	scanf("%d", &N);
 
-	scanf("%s", str1); scanf("%s", str2);
+	while (N--)
+	{
+		scanf("%c", &op);
+		switch (op)
+		{
+		case 'P':
+			scanf("%s", buf);
+			scanf("%d", &input);
+			break;
+		case 'G':
+		case 'D':
+		case 'S':
+			scanf("%s", buf);
+			break;
+		case 'C':
+		case 'F':
+			break;
+		}
 
+		Body inputData = { buf, data };
+		input(op, &inputData);
+	}
 
-	printf("%d\n", search(str1, str2));
 	return 0;
 }
