@@ -2,8 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
-
 #define HASH_LEN 1000
 #define MAX_HASH 1000
 #define MAX_WORD 10
@@ -49,6 +47,7 @@ typedef HashTable TABLE;
 void input(TABLE *e, char op, Body *data);
 
 // functions for hash table
+Node *putList(LIST *k, Body *bd);
 void HTinit(TABLE *e, HashFunc *f, HashComp *c);
 void putHT(TABLE *e, Body *bd);
 Body *getHT(TABLE *e, char *lkey);
@@ -61,7 +60,7 @@ int fileHT(TABLE *e, FILE *output);
 int hashString(char *str);
 
 // functions for search data
-Node *searchHT(TABLE *e, char *find);
+Body *searchHT(TABLE *e, char *find);
 
 // FREE : functions for implement each functions above.
 int isAlpha(char ch);
@@ -85,12 +84,13 @@ void ListInit(LIST *k)
 	k->numOfData = 0;
 }
 
-void putList(LIST *k, Body *bd)
+Node *putList(LIST *k, Body *bd)
 {
 	Node *newNode = (Node *)malloc(sizeof(Node));
 	int len = strlen(bd->key);
 	newNode->data.key = (char *)malloc(sizeof(char) * (len + 1));
 	newNode->next = NULL;
+	newNode->next_alpha = NULL;
 	strcpy(newNode->data.key, bd->key);
 	newNode->data.value = bd->value;
 
@@ -98,6 +98,8 @@ void putList(LIST *k, Body *bd)
 	k->cur->next = newNode;
 	k->cur = k->cur->next;
 	k->numOfData++;
+
+	return newNode;
 }
 
 // for hash table
@@ -113,7 +115,7 @@ void HTinit(TABLE *e, HashFunc *f, HashComp *c)
 	e->hc = c;
 	e->super = (Node *)malloc(sizeof(Node));
 	e->super_alpha = (Node *)malloc(sizeof(Node));
-	e->super_alpha->next = NULL;
+	e->super_alpha->next_alpha = NULL;
 	e->numOfData = 0;
 }
 
@@ -123,11 +125,22 @@ void putHT(TABLE *e, Body *bd)
 	int valhash = e->hf(bd->key);
 	LIST *pos = &(e->table[valhash]);
 
-	putList(pos, bd);
-	// Node *cural = e->super_alpha->next_alpha;
-	// while (e->hc(cural->data.key, bd->key)) cural = cural->next_alpha;
-	// pos->cur->next_alpha = cural->next_alpha;
-	// cural->next_alpha = pos->cur;
+	Node *newNode = putList(pos, bd);
+	char *keyAlpha = newNode->data.key;
+	if (e->super_alpha->next_alpha == NULL)
+	{
+		e->super_alpha->next_alpha = newNode;
+	}
+	else
+	{
+		Node *curAlpha = e->super_alpha->next_alpha;
+		while (e->hc(curAlpha->data.key, keyAlpha) && (curAlpha->next_alpha) != NULL)
+		{
+			curAlpha = curAlpha->next_alpha;
+		}
+		newNode->next_alpha = curAlpha->next_alpha;
+		curAlpha->next_alpha = newNode;
+	}
 }
 
 Body *getHT(TABLE *e, char *lkey)
@@ -195,12 +208,6 @@ int hashString(char *str)
 	}
 
 	return sum % 1000;
-}
-
-int mystrcmp(char *str1, char *str2)
-{
-	if (strcmp(str1, str2) < 0) return 1;
-	return 0;
 }
 
 int isNum(char ch)
@@ -385,7 +392,13 @@ void optimizeRLE(char *src)
 // ab
 // ab
 
-int search(char *src, char *str)
+int alphaCompare(char *src, char *str)
+{
+	if (strcmp(src, str) > 0) return 1;
+	return 0;
+}
+
+int powerCompare(char *src, char *str)
 {
 	char *s = str;
 	char *d = src;
@@ -461,7 +474,7 @@ int main()
 	Body inputData; 
 
 	TABLE myHT;
-	HTinit(&myHT, hashString, mystrcmp);
+	HTinit(&myHT, hashString, alphaCompare);
 
 	while (fscanf(inputFile, "%s %d", buf, &data) != EOF)
 	{
@@ -480,7 +493,13 @@ int main()
 		printf("%d : %d\n", i, pos->numOfData);
 		pos++;
 	}
-
+	
+	Node *start = myHT.super_alpha;
+	while (start != NULL)
+	{
+		start = start->next;
+		printf("%s\n", start->data.key);
+	}
 	int N;
 	char op;
 	scanf("%d", &N);
