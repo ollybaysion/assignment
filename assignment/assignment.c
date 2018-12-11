@@ -61,6 +61,7 @@ int hashString(char *str);
 // FREE : functions for implement each functions above.
 void decompressRLE(char *des, char *src);
 int powerCompare(char *src, char *com);
+int isNum(char ch);
 
 // FUNCTIONS!!
 void ListInit(LIST *k)
