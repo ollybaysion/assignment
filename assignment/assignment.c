@@ -367,7 +367,6 @@ void input(TABLE *e, char op, Body *data, FILE *outputFile, char *fileName)
 		printf("%s\n", fileName);
 		break;
 	case 'S':
-		printf("a\n");
 		sPos = searchHT(e, data->key);
 		if (sPos != NULL)
 		{
