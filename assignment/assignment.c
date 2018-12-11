@@ -207,9 +207,11 @@ Body *searchHT(TABLE *e, char *find)
 	{
 		pos = &(e->table[i]);
 		Node *search = pos->head->next;
+		if (pos->numOfData == 0) continue;
 		while (1)
 		{
-			if (powerCompare(search->data.key, find))
+			char *curKey = search->data.key;
+			if (powerCompare(curKey, find))
 			{
 				return &(search->data);
 			}
@@ -365,6 +367,7 @@ void input(TABLE *e, char op, Body *data, FILE *outputFile, char *fileName)
 		printf("%s\n", fileName);
 		break;
 	case 'S':
+		printf("a\n");
 		sPos = searchHT(e, data->key);
 		if (sPos != NULL)
 		{
@@ -421,6 +424,8 @@ int main(int argc, char *argv[])
 		case 'G':
 		case 'D':
 		case 'S':
+			scanf("%s", buf);
+			break;
 		case 'F':
 			scanf("%s", FileName);
 			outputFile = fopen(FileName, "w");
