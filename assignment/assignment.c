@@ -390,7 +390,7 @@ int main(int argc, char *argv[])
 
 	TABLE myHT;
 	HTinit(&myHT, hashString, alphaCompare);
-	if (argc == 1)
+	if (argc == 2)
 	{
 		inputFile = fopen(argv[1], "r");
 
