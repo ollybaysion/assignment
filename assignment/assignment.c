@@ -44,7 +44,7 @@ typedef struct _hashTable {
 typedef HashTable TABLE;
 
 // functions for input data
-void input(TABLE *e, char op, Body *data);
+void input(TABLE *e, char op, Body *data, FILE *outputFile);
 
 // functions for hash table
 Node *putList(LIST *k, Body *bd);
@@ -494,8 +494,8 @@ int main(int argc, char *argv)
 	FILE *outputFile;
 	inputFile = fopen(argv[1], "r");
 	char buf[300] = "";
-	int data = 0 = ""; 
-	char FileName[300];
+	int data = 0; 
+	char FileName[300] = "";
 	Body inputData; 
 
 	TABLE myHT;
