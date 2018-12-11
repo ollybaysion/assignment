@@ -44,7 +44,7 @@ typedef struct _hashTable {
 typedef HashTable TABLE;
 
 // functions for input data
-void input(TABLE *e, char op, Body *data, FILE *outputFile);
+void input(TABLE *e, char op, Body *data, FILE *outputFile, char *fileName)
 
 // functions for hash table
 Node *putList(LIST *k, Body *bd);
@@ -445,7 +445,7 @@ int powerCompare(char *src, char *str)
 	return 0;
 }
 
-void input(TABLE *e, char op, Body *data, FILE *outputFile)
+void input(TABLE *e, char op, Body *data, FILE *outputFile, char *fileName)
 {
 	Body *sPos;
 	Node *start;
@@ -477,7 +477,7 @@ void input(TABLE *e, char op, Body *data, FILE *outputFile)
 		else printf("ERROR\n");
 		break;
 	case 'F':
-		start = e->super_alpha;
+		start = e->super_alpha->next_alpha;
 		while (start)
 		{
 			char *key = start->data.key;
@@ -485,6 +485,8 @@ void input(TABLE *e, char op, Body *data, FILE *outputFile)
 			fprintf(outputFile, "%s %d\n", key, value);
 			start = start->next_alpha;
 		}
+		printf("%s\n", fileName);
+		break;
 	}
 }
 
@@ -539,7 +541,7 @@ int main(int argc, char *argv[])
 		inputData.key = buf;
 		inputData.value = data;
 
-		input(&myHT, op, &inputData, outputFile);
+		input(&myHT, op, &inputData, outputFile, FileName);
 	}
 
 	return 0;
