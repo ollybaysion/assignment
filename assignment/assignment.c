@@ -140,7 +140,6 @@ void putHT(TABLE *e, Body *bd)
 		while (1)
 		{
 			keyCurAlpha = curAlpha->data.key;
-			printf("cur : %s\n", keyCurAlpha);
 			if (e->hc(keyCurAlpha, keyAlpha) || (curAlpha->next_alpha) == NULL) break;
 
 			curAlpha = curAlpha->next_alpha;
