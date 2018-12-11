@@ -1,0 +1,11 @@
+10
+P asdf 20
+P asdfiz 30
+P zsdklfj 50
+P kkao 14
+P zsio 42
+S asdf
+S a*
+S *s*
+S *df
+C
