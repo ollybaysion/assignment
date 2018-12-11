@@ -473,6 +473,14 @@ int main()
 		}
 	}
 
+	int i;
+	LIST *pos = &(myHT.table[0]);
+	for (i = 0; i < 1000; i++)
+	{
+		printf("%d : %d", i, pos->numOfData);
+		pos++;
+	}
+
 	int N;
 	char op;
 	scanf("%d", &N);
