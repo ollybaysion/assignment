@@ -132,17 +132,22 @@ void putHT(TABLE *e, Body *bd)
 
 Body *getHT(TABLE *e, char *lkey)
 {
+	int i = 0;
 	int valhash = e->hf(lkey);
 	LIST *pos = &(e->table[valhash]);
-
 	if (pos->numOfData == 0) return NULL;
 
 	Node *ffind = pos->head->next;
-	for (int i = 0; i < pos->numOfData; i++);
+	while (i < (pos->numOfData))
 	{
-		if (!strcmp(lkey, ffind->data.key)) return &(ffind->data);
+		if (!strcmp(lkey, ffind->data.key))
+		{
+			return &(ffind->data);
+		}
 		ffind = ffind->next;
+		i++;
 	}
+
 	return NULL;
 }
 
@@ -153,23 +158,28 @@ int countHT(TABLE *e)
 
 int deleteHT(TABLE *e, char *lkey)
 {
+	int i = 0;
 	int valhash = e->hf(lkey);
 	LIST *pos = &(e->table[valhash]);
 	if (pos->numOfData == 0) return 0;
 
 	Node *pre = pos->head;
 	Node *ffind = pos->head->next;
-	for (int i = 0; i < pos->numOfData; i++);
+	while(i < (pos->numOfData))
 	{
 		if (!strcmp(lkey, ffind->data.key))
 		{
 			pre->next = ffind->next;
 			free(ffind);
+			e->numOfData--;
+			pos->numOfData--;
 			return 1;
 		}
 		ffind = ffind->next;
 		pre = pre->next;
+		i++;
 	}
+
 	return 0;
 }
 
@@ -422,7 +432,7 @@ void input(TABLE *e, char op, Body *data)
 		{
 			printf("ERROR\n");
 		}
-			break;
+		break;
 	case 'G':
 		sPos = getHT(e, data->key);
 		if(sPos != NULL) printf("%d\n", sPos->value);
@@ -460,16 +470,17 @@ int main()
 		case 'G':
 		case 'D':
 		case 'S':
+		case 'F':
 			scanf("%s", buf);
 			break;
 		case 'C':
-		case 'F':
 			break;
 		}
 
 		Body inputData;
 		inputData.key = buf;
 		inputData.value = data;
+
 		input(&myHT, op, &inputData);
 	}
 
