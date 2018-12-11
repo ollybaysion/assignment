@@ -470,11 +470,6 @@ int main()
 		if (getHT(&myHT, inputData.key) == NULL)
 		{
 			putHT(&myHT, &inputData);
-			printf("%s\n", inputData.key);
-		}
-		else
-		{
-			printf("ERROR\n");
 		}
 	}
 
