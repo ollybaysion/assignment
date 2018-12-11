@@ -2,6 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 
+
+
 #define HASH_LEN 1000
 #define MAX_HASH 1000
 #define MAX_WORD 10
@@ -44,9 +46,9 @@ typedef struct _hashTable {
 typedef HashTable TABLE;
 
 // functions for input data
-void input(char op, int data);
+void input(TABLE *e, char op, Body *data);
 
- // functions for hash table
+// functions for hash table
 void HTinit(TABLE *e, HashFunc *f, HashComp *c);
 void putHT(TABLE *e, Body *bd);
 Body *getHT(TABLE *e, char *lkey);
@@ -91,7 +93,7 @@ void putList(LIST *k, Body *bd)
 	newNode->next = NULL;
 	strcpy(newNode->data.key, bd->key);
 	newNode->data.value = bd->value;
-	
+
 
 	k->cur->next = newNode;
 	k->cur = k->cur->next;
@@ -149,6 +151,7 @@ Body *getHT(TABLE *e, char *lkey)
 	return NULL;
 }
 
+
 int countHT(TABLE *e)
 {
 	return e->numOfData;
@@ -163,7 +166,7 @@ int deleteHT(TABLE *e, char *lkey)
 
 	Node *pre = pos->head;
 	Node *ffind = pos->head->next;
-	while(i < (pos->numOfData))
+	while (i < (pos->numOfData))
 	{
 		if (!strcmp(lkey, ffind->data.key))
 		{
@@ -379,6 +382,9 @@ void optimizeRLE(char *src)
 	strcpy(src, buf);
 }
 
+// ab
+// ab
+
 int search(char *src, char *str)
 {
 	char *s = str;
@@ -433,7 +439,7 @@ void input(TABLE *e, char op, Body *data)
 		break;
 	case 'G':
 		sPos = getHT(e, data->key);
-		if(sPos != NULL) printf("%d\n", sPos->value);
+		if (sPos != NULL) printf("%d\n", sPos->value);
 		else printf("ERROR\n");
 		break;
 	case 'C':
