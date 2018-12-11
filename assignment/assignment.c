@@ -52,7 +52,7 @@ void input(char op, int data);
 void HTinit(TABLE *e, HashFunc *f, HashComp *c);
 void putHT(TABLE *e, Body *bd);
 Body *getHT(TABLE *e, char *lkey);
-int deleteHT(TABLE *e, char *lkey, Body *dataPos);
+int deleteHT(TABLE *e, char *lkey);
 int countHT(TABLE *e);
 
 int fileHT(TABLE *e, FILE *output);
@@ -90,8 +90,10 @@ void putList(LIST *k, Body *bd)
 	Node *newNode = (Node *)malloc(sizeof(Node));
 	int len = strlen(bd->key);
 	newNode->data.key = (char *)malloc(sizeof(char) * (len + 1));
+	newNode->next = NULL;
 	strcpy(newNode->data.key, bd->key);
 	newNode->data.value = bd->value;
+	
 
 	k->cur->next = newNode;
 	k->cur = k->cur->next;
@@ -102,6 +104,11 @@ void putList(LIST *k, Body *bd)
 void HTinit(TABLE *e, HashFunc *f, HashComp *c)
 {
 	e->table = (LIST *)malloc(sizeof(LIST) * HASH_LEN);
+	for (int i = 0; i < HASH_LEN; i++)
+	{
+		LIST *l = &(e->table[i]);
+		ListInit(l);
+	}
 	e->hf = f;
 	e->hc = c;
 	e->super = (Node *)malloc(sizeof(Node));
@@ -116,32 +123,54 @@ void putHT(TABLE *e, Body *bd)
 	int valhash = e->hf(bd->key);
 	LIST *pos = &(e->table[valhash]);
 
-	if (pos == NULL)
-	{
-		ListInit(pos);
-	}
-
 	putList(pos, bd);
-
-	Node *cural = e->super_alpha->next_alpha;
-	while (e->hc(cural->data.key, bd->key)) cural = cural->next_alpha;
-	pos->cur->next_alpha = cural->next_alpha;
-	cural->next_alpha = pos->cur;
+	// Node *cural = e->super_alpha->next_alpha;
+	// while (e->hc(cural->data.key, bd->key)) cural = cural->next_alpha;
+	// pos->cur->next_alpha = cural->next_alpha;
+	// cural->next_alpha = pos->cur;
 }
 
 Body *getHT(TABLE *e, char *lkey)
 {
 	int valhash = e->hf(lkey);
 	LIST *pos = &(e->table[valhash]);
-	Node *ffind = pos->head->next;
 
-	while (ffind != NULL)
+	if (pos->numOfData == 0) return NULL;
+
+	Node *ffind = pos->head->next;
+	for (int i = 0; i < pos->numOfData; i++);
 	{
-		if (strcmp(lkey, ffind->data.key)) return &(ffind->data);
+		if (!strcmp(lkey, ffind->data.key)) return &(ffind->data);
 		ffind = ffind->next;
 	}
-
 	return NULL;
+}
+
+int countHT(TABLE *e)
+{
+	return e->numOfData;
+}
+
+int deleteHT(TABLE *e, char *lkey)
+{
+	int valhash = e->hf(lkey);
+	LIST *pos = &(e->table[valhash]);
+	if (pos->numOfData == 0) return 0;
+
+	Node *pre = pos->head;
+	Node *ffind = pos->head->next;
+	for (int i = 0; i < pos->numOfData; i++);
+	{
+		if (!strcmp(lkey, ffind->data.key))
+		{
+			pre->next = ffind->next;
+			free(ffind);
+			return 1;
+		}
+		ffind = ffind->next;
+		pre = pre->next;
+	}
+	return 0;
 }
 
 int hashString(char *str)
@@ -159,7 +188,8 @@ int hashString(char *str)
 
 int mystrcmp(char *str1, char *str2)
 {
-
+	if (strcmp(str1, str2) < 0) return 1;
+	return 0;
 }
 
 int isNum(char ch)
@@ -376,28 +406,56 @@ int search(char *src, char *str)
 	return 0;
 }
 
-void input(char op, Body *data)
+void input(TABLE *e, char op, Body *data)
 {
-
+	Body *sPos;
+	printf("[%c] ", op);
+	switch (op)
+	{
+	case 'P':
+		if (getHT(e, data->key) == NULL)
+		{
+			putHT(e, data);
+			printf("%s\n", data->key);
+		}
+		else
+		{
+			printf("ERROR\n");
+		}
+			break;
+	case 'G':
+		sPos = getHT(e, data->key);
+		if(sPos != NULL) printf("%d\n", sPos->value);
+		else printf("ERROR\n");
+		break;
+	case 'C':
+		printf("%d\n", countHT(e));
+		break;
+	case 'D':
+		if (deleteHT(e, data->key)) printf("%s\n", data->key);
+		else printf("ERROR\n");
+		break;
+	}
 }
+
 int main()
 {
 	TABLE myHT;
 	HTinit(&myHT, hashString, mystrcmp);
 	int N;
-	char buf[300];
-	int data;
+	char buf[300] = "";
+	int data = 0;
 	char op;
 	scanf("%d", &N);
 
 	while (N--)
 	{
-		scanf("%c", &op);
+		scanf(" %c", &op);
 		switch (op)
 		{
 		case 'P':
 			scanf("%s", buf);
-			scanf("%d", &input);
+			scanf("%d", &data);
 			break;
 		case 'G':
 		case 'D':
@@ -409,8 +467,10 @@ int main()
 			break;
 		}
 
-		Body inputData = { buf, data };
-		input(op, &inputData);
+		Body inputData;
+		inputData.key = buf;
+		inputData.value = data;
+		input(&myHT, op, &inputData);
 	}
 
 	return 0;
