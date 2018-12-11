@@ -385,12 +385,13 @@ int main(int argc, char *argv[])
 	char FileName[300] = "";
 	Body inputData;
 
+	FILE *inputFile;
+	FILE *outputFile;
+
 	TABLE myHT;
 	HTinit(&myHT, hashString, alphaCompare);
 	if (argc == 1)
 	{
-		FILE *inputFile;
-		FILE *outputFile;
 		inputFile = fopen(argv[1], "r");
 
 		while (fscanf(inputFile, "%s %d", buf, &data) != EOF)
