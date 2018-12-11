@@ -140,7 +140,12 @@ void putHT(TABLE *e, Body *bd)
 		while (1)
 		{
 			keyCurAlpha = curAlpha->data.key;
-			if (e->hc(keyCurAlpha, keyAlpha) || (curAlpha->next_alpha) == NULL) break;
+			printf("cur : %s\n", keyCurAlpha);
+			if (e->hc(keyCurAlpha, keyAlpha)) break;
+			if ((curAlpha->next_alpha) == NULL)
+			{
+				pre = pre->next_alpha; break;
+			}
 
 			curAlpha = curAlpha->next_alpha;
 			pre = pre->next_alpha;
@@ -501,13 +506,7 @@ int main()
 		printf("%d : %d\n", i, pos->numOfData);
 		pos++;
 	}
-	
-	Node *start = myHT.super_alpha;
-	while (start != NULL)
-	{
-		start = start->next_alpha;
-		printf("%s\n", start->data.key);
-	}
+
 	int N;
 	char op;
 	scanf("%d", &N);
