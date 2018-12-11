@@ -454,11 +454,31 @@ void input(TABLE *e, char op, Body *data)
 
 int main()
 {
-	TABLE myHT;
-	HTinit(&myHT, hashString, mystrcmp);
-	int N;
+	FILE *inputFile;
+	inputFile = fopen("sample_data.txt", "r");
 	char buf[300] = "";
 	int data = 0;
+	Body inputData; 
+
+	TABLE myHT;
+	HTinit(&myHT, hashString, mystrcmp);
+
+	while (fscanf(inputFile, "%s %d", buf, &data) != EOF)
+	{
+		inputData.key = buf;
+		inputData.value = data;
+		if (getHT(&myHT, inputData.key) == NULL)
+		{
+			putHT(&myHT, data);
+			printf("%s\n", inputData.key);
+		}
+		else
+		{
+			printf("ERROR\n");
+		}
+	}
+
+	int N;
 	char op;
 	scanf("%d", &N);
 
@@ -481,7 +501,7 @@ int main()
 			break;
 		}
 
-		Body inputData;
+
 		inputData.key = buf;
 		inputData.value = data;
 
