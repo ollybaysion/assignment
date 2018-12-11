@@ -126,20 +126,29 @@ void putHT(TABLE *e, Body *bd)
 	LIST *pos = &(e->table[valhash]);
 
 	Node *newNode = putList(pos, bd);
-	char *keyAlpha = newNode->data.key;
+
 	if (e->super_alpha->next_alpha == NULL)
 	{
 		e->super_alpha->next_alpha = newNode;
 	}
 	else
 	{
+		Node *pre = e->super_alpha;
 		Node *curAlpha = e->super_alpha->next_alpha;
-		while (e->hc(curAlpha->data.key, keyAlpha) && (curAlpha->next_alpha) != NULL)
+		char *keyAlpha = newNode->data.key;
+		char *keyCurAlpha;
+		while (1)
 		{
+			keyCurAlpha = curAlpha->data.key;
+			printf("cur : %s\n", keyCurAlpha);
+			if (e->hc(keyCurAlpha, keyAlpha) || (curAlpha->next_alpha) == NULL) break;
+
 			curAlpha = curAlpha->next_alpha;
+			pre = pre->next_alpha;
 		}
-		newNode->next_alpha = curAlpha->next_alpha;
-		curAlpha->next_alpha = newNode;
+		
+		newNode->next_alpha = pre->next_alpha;
+		pre->next_alpha = newNode;
 	}
 }
 
@@ -394,8 +403,8 @@ void optimizeRLE(char *src)
 
 int alphaCompare(char *src, char *str)
 {
-	if (strcmp(src, str) > 0) return 1;
-	return 0;
+	if (strcmp(src, str) < 0) return 0;
+	return 1;
 }
 
 int powerCompare(char *src, char *str)
@@ -497,7 +506,7 @@ int main()
 	Node *start = myHT.super_alpha;
 	while (start != NULL)
 	{
-		start = start->next;
+		start = start->next_alpha;
 		printf("%s\n", start->data.key);
 	}
 	int N;
