@@ -60,7 +60,7 @@ int fileHT(TABLE *e, FILE *output);
 int hashString(char *str);
 
 // functions for search data
-int searchHT(TABLE *e, char *find, int *resultPos)
+int searchHT(TABLE *e, char *find, int *resultPos);
 
 // FREE : functions for implement each functions above.
 void decompressRLE(char *des, char *src);
