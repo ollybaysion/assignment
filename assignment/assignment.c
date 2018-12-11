@@ -2,8 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 
-
-
 #define HASH_LEN 1000
 #define MAX_HASH 1000
 #define MAX_WORD 10
