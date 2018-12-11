@@ -53,20 +53,16 @@ void putHT(TABLE *e, Body *bd);
 Body *getHT(TABLE *e, char *lkey);
 int deleteHT(TABLE *e, char *lkey);
 int countHT(TABLE *e);
-
-int fileHT(TABLE *e, FILE *output);
+int searchHT(TABLE *e, char *find, int *resultPos);
 
 // functions for hash string to integer
 int hashString(char *str);
-
-// functions for search data
-int searchHT(TABLE *e, char *find, int *resultPos);
 
 // FREE : functions for implement each functions above.
 void decompressRLE(char *des, char *src);
 int powerCompare(char *src, char *com);
 
-// for hash List in hash table.
+// FUNCTIONS!!
 void ListInit(LIST *k)
 {
 	k->head = (Node *)malloc(sizeof(Node));
@@ -92,7 +88,6 @@ Node *putList(LIST *k, Body *bd)
 	return newNode;
 }
 
-// for hash table
 void HTinit(TABLE *e, HashFunc *f, HashComp *c)
 {
 	e->table = (LIST *)malloc(sizeof(LIST) * HASH_LEN);
@@ -186,6 +181,7 @@ int deleteHT(TABLE *e, char *lkey)
 		if (!strcmp(lkey, ffind->data.key))
 		{
 			pre->next = ffind->next;
+			free(ffind->data.key);
 			free(ffind);
 			e->numOfData--;
 			pos->numOfData--;
@@ -240,13 +236,6 @@ int hashString(char *str)
 	return sum % 1000;
 }
 
-int isNum(char ch)
-{
-	if (ch >= '0' && ch <= '9') return 1;
-	return 0;
-}
-
-
 void decompressRLE(char *des, char *src)
 {
 	char *s = src;
@@ -293,7 +282,7 @@ int alphaCompare(char *src, char *str)
 
 int powerCompare(char *src, char *com)
 {
-	char str[100] = "";
+	char str[300] = "";
 	decompressRLE(str, com);
 	char *s = str;
 	char *d = src;
@@ -305,7 +294,7 @@ int powerCompare(char *src, char *com)
 		if (*s == '*')
 		{
 			char next = *(s + 1);
-			d++; is++;
+			is++;
 			while (*d != next)
 			{
 				if (*d == '\0') break;
@@ -439,11 +428,17 @@ int main(int argc, char *argv[])
 			break;
 		}
 
-
 		inputData.key = buf;
 		inputData.value = data;
 
 		input(&myHT, op, &inputData, outputFile, FileName);
 	}
+	
+	return 0;
+}
+
+int isNum(char ch)
+{
+	if (ch >= '0' && ch <= '9') return 1;
 	return 0;
 }
