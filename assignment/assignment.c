@@ -60,7 +60,7 @@ int fileHT(TABLE *e, FILE *output);
 int hashString(char *str);
 
 // functions for search data
-Body *searchHT(TABLE *e, char *find);
+int searchHT(TABLE *e, char *find);
 
 // FREE : functions for implement each functions above.
 void decompressRLE(char *des, char *src);
@@ -199,8 +199,9 @@ int deleteHT(TABLE *e, char *lkey)
 	return 0;
 }
 
-Body *searchHT(TABLE *e, char *find)
+int searchHT(TABLE *e, char *find)
 {
+	int sum = 0;
 	int i = 0;
 	LIST *pos = &(e->table[0]);
 	for (i = 0; i < 1000; i++)
@@ -213,7 +214,7 @@ Body *searchHT(TABLE *e, char *find)
 			char *curKey = search->data.key;
 			if (powerCompare(curKey, find))
 			{
-				return &(search->data);
+				sum += search->data.value;
 			}
 			if (search->next == NULL) break;
 			search = search->next;
@@ -328,6 +329,7 @@ void input(TABLE *e, char op, Body *data, FILE *outputFile, char *fileName)
 {
 	Body *sPos;
 	Node *start;
+	int sum = 0;
 
 	printf("[%c] ", op);
 	switch (op)
@@ -367,10 +369,10 @@ void input(TABLE *e, char op, Body *data, FILE *outputFile, char *fileName)
 		printf("%s\n", fileName);
 		break;
 	case 'S':
-		sPos = searchHT(e, data->key);
+		sum = searchHT(e, data->key);
 		if (sPos != NULL)
 		{
-			printf("%s, %d\n", sPos->key, sPos->value);
+			printf("%d\n", sum);
 		}
 		else
 		{
