@@ -488,7 +488,7 @@ void input(TABLE *e, char op, Body *data, FILE *outputFile)
 	}
 }
 
-int main(int argc, char *argv)
+int main(int argc, char *argv[])
 {
 	FILE *inputFile;
 	FILE *outputFile;
