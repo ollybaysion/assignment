@@ -469,7 +469,7 @@ int main()
 		inputData.value = data;
 		if (getHT(&myHT, inputData.key) == NULL)
 		{
-			putHT(&myHT, data);
+			putHT(&myHT, &inputData);
 			printf("%s\n", inputData.key);
 		}
 		else
