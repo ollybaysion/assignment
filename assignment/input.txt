@@ -1,0 +1,11 @@
+10
+G unillustriousness
+G asdfasdf
+P asdfasdf 30
+P unillustriousness 30
+D asdfasdf
+D asdfasdf
+C
+S unill*ness
+S unill2ness
+F file1.txt
