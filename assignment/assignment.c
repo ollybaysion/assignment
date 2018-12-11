@@ -199,9 +199,10 @@ int deleteHT(TABLE *e, char *lkey)
 	return 0;
 }
 
-int searchHT(TABLE *e, char *find)
+int searchHT(TABLE *e, char *find, int *resultPos)
 {
 	int sum = 0;
+	int is = 0;
 	int i = 0;
 	LIST *pos = &(e->table[0]);
 	for (i = 0; i < 1000; i++)
@@ -214,6 +215,7 @@ int searchHT(TABLE *e, char *find)
 			char *curKey = search->data.key;
 			if (powerCompare(curKey, find))
 			{
+				is = 1;
 				sum += search->data.value;
 			}
 			if (search->next == NULL) break;
@@ -221,7 +223,8 @@ int searchHT(TABLE *e, char *find)
 		}
 	}
 
-	return NULL;
+	*resultPos = sum;
+	return is;
 }
 
 int hashString(char *str)
@@ -329,7 +332,8 @@ void input(TABLE *e, char op, Body *data, FILE *outputFile, char *fileName)
 {
 	Body *sPos;
 	Node *start;
-	int sum = 0;
+	int sum;
+	int tmp;
 
 	printf("[%c] ", op);
 	switch (op)
@@ -369,8 +373,8 @@ void input(TABLE *e, char op, Body *data, FILE *outputFile, char *fileName)
 		printf("%s\n", fileName);
 		break;
 	case 'S':
-		sum = searchHT(e, data->key);
-		if (sPos != NULL)
+		tmp = searchHT(e, data->key, &sum);
+		if (tmp)
 		{
 			printf("%d\n", sum);
 		}
