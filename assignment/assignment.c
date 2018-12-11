@@ -370,7 +370,7 @@ void input(TABLE *e, char op, Body *data, FILE *outputFile, char *fileName)
 		sPos = searchHT(e, data->key);
 		if (sPos != NULL)
 		{
-			printf("%d\n", sPos->value);
+			printf("%s, %d\n", sPos->key, sPos->value);
 		}
 		else
 		{
