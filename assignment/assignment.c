@@ -445,9 +445,11 @@ int powerCompare(char *src, char *str)
 	return 0;
 }
 
-void input(TABLE *e, char op, Body *data)
+void input(TABLE *e, char op, Body *data, FILE *outputFile)
 {
 	Body *sPos;
+	Node *start;
+
 	printf("[%c] ", op);
 	switch (op)
 	{
@@ -474,15 +476,26 @@ void input(TABLE *e, char op, Body *data)
 		if (deleteHT(e, data->key)) printf("%s\n", data->key);
 		else printf("ERROR\n");
 		break;
+	case 'F':
+		start = e->super_alpha;
+		while (start)
+		{
+			char *key = start->data.key;
+			int value = start->data.value;
+			fprintf(outputFile, "%s %d\n", key, value);
+			start = start->next_alpha;
+		}
 	}
 }
 
-int main()
+int main(int argc, char *argv)
 {
 	FILE *inputFile;
-	inputFile = fopen("sample_data.txt", "r");
+	FILE *outputFile;
+	inputFile = fopen(argv[1], "r");
 	char buf[300] = "";
-	int data = 0;
+	int data = 0 = ""; 
+	char FileName[300];
 	Body inputData; 
 
 	TABLE myHT;
@@ -496,14 +509,6 @@ int main()
 		{
 			putHT(&myHT, &inputData);
 		}
-	}
-
-	int i;
-	LIST *pos = &(myHT.table[0]);
-	for (i = 0; i < 1000; i++)
-	{
-		printf("%d : %d\n", i, pos->numOfData);
-		pos++;
 	}
 
 	int N;
@@ -523,7 +528,8 @@ int main()
 		case 'D':
 		case 'S':
 		case 'F':
-			scanf("%s", buf);
+			scanf("%s", FileName);
+			outputFile = fopen(FileName, "w");
 			break;
 		case 'C':
 			break;
@@ -533,7 +539,7 @@ int main()
 		inputData.key = buf;
 		inputData.value = data;
 
-		input(&myHT, op, &inputData);
+		input(&myHT, op, &inputData, outputFile);
 	}
 
 	return 0;
