@@ -477,7 +477,7 @@ int main()
 	LIST *pos = &(myHT.table[0]);
 	for (i = 0; i < 1000; i++)
 	{
-		printf("%d : %d", i, pos->numOfData);
+		printf("%d : %d\n", i, pos->numOfData);
 		pos++;
 	}
 
