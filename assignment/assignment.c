@@ -380,9 +380,6 @@ void input(TABLE *e, char op, Body *data, FILE *outputFile, char *fileName)
 
 int main(int argc, char *argv[])
 {
-	FILE *inputFile;
-	FILE *outputFile;
-	inputFile = fopen(argv[1], "r");
 	char buf[300] = "";
 	int data = 0;
 	char FileName[300] = "";
@@ -390,14 +387,20 @@ int main(int argc, char *argv[])
 
 	TABLE myHT;
 	HTinit(&myHT, hashString, alphaCompare);
-
-	while (fscanf(inputFile, "%s %d", buf, &data) != EOF)
+	if (argc == 1)
 	{
-		inputData.key = buf;
-		inputData.value = data;
-		if (getHT(&myHT, inputData.key) == NULL)
+		FILE *inputFile;
+		FILE *outputFile;
+		inputFile = fopen(argv[1], "r");
+
+		while (fscanf(inputFile, "%s %d", buf, &data) != EOF)
 		{
-			putHT(&myHT, &inputData);
+			inputData.key = buf;
+			inputData.value = data;
+			if (getHT(&myHT, inputData.key) == NULL)
+			{
+				putHT(&myHT, &inputData);
+			}
 		}
 	}
 
